@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: center;
   padding: 0.65rem 1.25rem;
-  border-radius: 0.75rem;
-  font-family: var(--font-family);
+  border-radius: 8px;
+  font-family: var(--font-body);
   font-weight: 600;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
@@ -15,15 +15,15 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--brand-green), var(--brand-green-dark));
-  color: white;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  background: var(--ink-indigo);
+  color: #FBF8F2;
+  box-shadow: 0 4px 12px rgba(28, 42, 68, 0.2);
 }
 
 .btn-primary:hover {
-  opacity: 0.92;
+  background: #283a5c;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 6px 16px rgba(28, 42, 68, 0.3);
 }
 
 .btn-primary:active {
@@ -31,35 +31,34 @@
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
+  background: var(--paper-white);
+  border: 1px solid var(--hairline);
+  color: var(--ink-indigo);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #f4edd9;
+  border-color: var(--ink-indigo);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
+  background: rgba(28, 42, 68, 0.05);
+  color: var(--ink-indigo);
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #f87171;
+  background: rgba(168, 69, 46, 0.1);
+  border: 1px solid var(--adire-rust);
+  color: var(--adire-rust);
 }
 
 .btn-danger:hover {
-  background: rgba(239, 68, 68, 0.25);
-  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(168, 69, 46, 0.2);
 }
 
 .btn:disabled {
@@ -72,11 +71,11 @@
 .input-field, select.input-field {
   width: 100%;
   padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  border: 1px solid var(--border-subtle);
-  background: rgba(15, 23, 42, 0.6);
-  color: var(--text-primary);
-  font-family: var(--font-family);
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--paper-white);
+  color: var(--ink-indigo);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   appearance: none;
@@ -84,27 +83,31 @@
 
 .input-field:focus {
   outline: none;
-  border-color: var(--brand-green);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  border-color: var(--ink-indigo);
+  box-shadow: 0 0 0 3px rgba(28, 42, 68, 0.12);
 }
 
 .input-field::placeholder {
-  color: var(--text-muted);
+  color: #9c9078;
 }
 
 .input-label {
   display: block;
-  font-size: 0.825rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   font-weight: 600;
   margin-bottom: 0.4rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .card {
-  background: var(--bg-card);
-  border-radius: 1rem;
-  border: 1px solid var(--border-subtle);
+  background: var(--paper-white);
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
   padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(28, 42, 68, 0.04);
 }
 
 /* Toasts */
@@ -124,14 +127,14 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.85rem 1.15rem;
-  border-radius: 12px;
-  background: #0f172a;
-  border: 1px solid var(--border-subtle);
-  color: white;
+  border-radius: 8px;
+  background: var(--ink-indigo);
+  border: 1px solid var(--hairline);
+  color: #FBF8F2;
   font-size: 0.875rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 24px rgba(28, 42, 68, 0.25);
   animation: fadeIn 0.3s ease forwards;
 }
 
-.toast-success { border-left: 4px solid var(--brand-green); }
-.toast-error { border-left: 4px solid #f87171; }
+.toast-success { border-left: 4px solid var(--guarantor-green); }
+.toast-error { border-left: 4px solid var(--adire-rust); }

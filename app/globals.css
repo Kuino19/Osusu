@@ -1,34 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap');
 
 :root {
-  /* Enterprise FinTech Color Palette */
-  --brand-green: #059669;
-  --brand-green-hover: #047857;
-  --brand-green-light: #10b981;
-  --brand-gold: #d97706;
-  --brand-gold-light: #f59e0b;
+  /* Passbook & Osùsù Design Tokens */
+  --ink-indigo: #1C2A44;       /* Primary / Trust */
+  --ledger-gold: #C08A28;      /* Accent / Money */
+  --guarantor-green: #3C6E52;  /* Success / Paid / Approved */
+  --adire-rust: #A8452E;       /* Overdue / Error */
+  --passbook-cream: #F1E9D8;   /* Main Background */
+  --paper-white: #FBF8F2;      /* Cards / Surfaces */
+  --hairline: #D8CBAE;         /* Dividers */
   
-  /* Dark Slate Neutral Palette */
-  --bg-primary: #0b0f19;
-  --bg-secondary: #0f172a;
-  --bg-card: #131b2e;
-  --bg-sidebar: #090d16;
+  --text-dark: #1C2A44;
+  --text-muted: #625842;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  --border-highlight: rgba(5, 150, 105, 0.4);
-  
-  /* Clean Glassmorphism & Shadow */
-  --glass-bg: rgba(19, 27, 46, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.5);
-  
-  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 * {
@@ -38,67 +25,111 @@
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  font-family: var(--font-body);
+  background-color: var(--passbook-cream);
+  color: var(--text-dark);
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary);
-  font-family: var(--font-family);
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-card);
-  border-radius: 1rem;
-  padding: 1.75rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* Signature Motifs */
+
+/* Ruled Passbook Lines Background */
+.passbook-ruled-lines {
+  background-color: var(--paper-white);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 31px,
+    var(--hairline) 31px,
+    var(--hairline) 32px
+  );
 }
 
-.glass-card:hover {
-  border-color: var(--border-highlight);
-  box-shadow: var(--shadow-elevated);
+/* Ink Stamp Badge Motif */
+.ink-stamp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1.5px solid currentColor;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+.stamp-approved {
+  color: var(--guarantor-green);
+  border-color: var(--guarantor-green);
+  background: rgba(60, 110, 82, 0.08);
+}
+
+.stamp-pending {
+  color: var(--ledger-gold);
+  border-color: var(--ledger-gold);
+  background: rgba(192, 138, 40, 0.08);
+}
+
+.stamp-overdue {
+  color: var(--adire-rust);
+  border-color: var(--adire-rust);
+  background: rgba(168, 69, 46, 0.08);
+}
+
+/* Aso-Oke Woven Stripe Divider */
+.aso-oke-divider {
   height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink-indigo) 0px,
+    var(--ink-indigo) 12px,
+    var(--ledger-gold) 12px,
+    var(--ledger-gold) 20px,
+    var(--guarantor-green) 20px,
+    var(--guarantor-green) 32px,
+    var(--adire-rust) 32px,
+    var(--adire-rust) 40px
+  );
   border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-green);
+/* Glass Card */
+.glass-card {
+  background: var(--paper-white);
+  border: 1px solid var(--hairline);
+  box-shadow: 0 4px 16px rgba(28, 42, 68, 0.06);
+  border-radius: 12px;
+  padding: 1.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+.glass-card:hover {
+  box-shadow: 0 8px 24px rgba(28, 42, 68, 0.1);
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Respect Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

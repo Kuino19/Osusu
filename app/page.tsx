@@ -12,15 +12,15 @@ import {
   CheckCircle2, 
   Users, 
   Layers,
-  Award,
-  ChevronRight
+  Sparkles,
+  Award
 } from 'lucide-react';
 import { TransparentLedger } from '@/components/TransparentLedger';
 
 export default function Home() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0b0f19', color: '#f8fafc' }}>
-      {/* Header */}
+    <div style={{ minHeight: '100vh', background: 'var(--passbook-cream)', color: 'var(--ink-indigo)' }}>
+      {/* Header Navigation */}
       <header style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -28,31 +28,33 @@ export default function Home() {
         padding: '1.25rem 2.5rem', 
         maxWidth: '1300px', 
         margin: '0 auto',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+        borderBottom: '1px solid var(--hairline)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           <div style={{ 
             width: '38px', 
             height: '38px', 
-            background: '#059669', 
-            borderRadius: '10px',
+            background: 'var(--ledger-gold)', 
+            borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
+            color: 'var(--ink-indigo)',
+            fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            fontSize: '1.25rem'
+            fontSize: '1.3rem',
+            boxShadow: '0 4px 12px rgba(192, 138, 40, 0.3)'
           }}>
             O
           </div>
-          <span style={{ fontSize: '1.4rem', fontWeight: 700, letterSpacing: '-0.03em' }}>Osusu</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em' }}>Osùsù</span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <Link 
             href="/auth" 
             style={{ 
-              color: '#cbd5e1', 
+              color: 'var(--ink-indigo)', 
               fontSize: '0.9rem', 
               fontWeight: 600, 
               padding: '0.5rem 1rem',
@@ -64,8 +66,8 @@ export default function Home() {
           <Link 
             href="/onboarding" 
             style={{ 
-              background: '#059669', 
-              color: 'white', 
+              background: 'var(--ink-indigo)', 
+              color: '#FBF8F2', 
               fontSize: '0.9rem', 
               fontWeight: 600, 
               padding: '0.6rem 1.25rem', 
@@ -73,6 +75,7 @@ export default function Home() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
+              boxShadow: '0 4px 14px rgba(28, 42, 68, 0.2)',
               transition: 'background-color 0.2s'
             }}
           >
@@ -96,12 +99,12 @@ export default function Home() {
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '0.5rem', 
-            background: 'rgba(5, 150, 105, 0.12)', 
-            border: '1px solid rgba(5, 150, 105, 0.3)', 
+            background: 'rgba(60, 110, 82, 0.12)', 
+            border: '1px solid var(--guarantor-green)', 
             padding: '0.4rem 0.9rem', 
             borderRadius: '20px', 
             fontSize: '0.8rem', 
-            color: '#34d399', 
+            color: 'var(--guarantor-green)', 
             fontWeight: 600,
             marginBottom: '1.5rem'
           }}>
@@ -109,19 +112,20 @@ export default function Home() {
           </div>
 
           <h1 style={{ 
+            fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', 
             fontWeight: 800, 
             lineHeight: 1.15, 
             letterSpacing: '-0.03em',
             marginBottom: '1.25rem',
-            color: '#ffffff'
+            color: 'var(--ink-indigo)'
           }}>
-            Modern Financial Infrastructure for Cooperative Unions & Thrift Societies
+            Modern Infrastructure for African Cooperative Societies & Unions
           </h1>
 
           <p style={{ 
             fontSize: '1.1rem', 
-            color: '#94a3b8', 
+            color: 'var(--text-muted)', 
             marginBottom: '2rem',
             lineHeight: 1.6
           }}>
@@ -132,15 +136,16 @@ export default function Home() {
             <Link 
               href="/onboarding" 
               style={{ 
-                background: '#059669', 
-                color: 'white', 
+                background: 'var(--ink-indigo)', 
+                color: '#FBF8F2', 
                 fontSize: '1rem', 
                 fontWeight: 600, 
-                padding: '0.8rem 1.75rem', 
+                padding: '0.85rem 1.85rem', 
                 borderRadius: '8px',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem'
+                gap: '0.5rem',
+                boxShadow: '0 4px 14px rgba(28, 42, 68, 0.25)'
               }}
             >
               Register Cooperative <ArrowRight size={18} />
@@ -148,12 +153,12 @@ export default function Home() {
             <Link 
               href="/auth" 
               style={{ 
-                background: 'rgba(255, 255, 255, 0.05)', 
-                border: '1px solid rgba(255, 255, 255, 0.12)', 
-                color: '#f8fafc', 
+                background: 'var(--paper-white)', 
+                border: '1px solid var(--hairline)', 
+                color: 'var(--ink-indigo)', 
                 fontSize: '1rem', 
                 fontWeight: 600, 
-                padding: '0.8rem 1.75rem', 
+                padding: '0.85rem 1.85rem', 
                 borderRadius: '8px',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -165,15 +170,15 @@ export default function Home() {
           </div>
 
           {/* Key Bullet Checklist */}
-          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.875rem', color: '#cbd5e1' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.875rem', color: 'var(--ink-indigo)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckCircle2 size={16} style={{ color: '#34d399' }} /> ACID Multi-Tenant Isolation
+              <CheckCircle2 size={16} style={{ color: 'var(--guarantor-green)' }} /> ACID Multi-Tenant Isolation
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckCircle2 size={16} style={{ color: '#34d399' }} /> Instant Paystack Receipts
+              <CheckCircle2 size={16} style={{ color: 'var(--guarantor-green)' }} /> Instant Paystack Receipts
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckCircle2 size={16} style={{ color: '#34d399' }} /> 1-Click Excel Migration
+              <CheckCircle2 size={16} style={{ color: 'var(--guarantor-green)' }} /> Termii SMS Passbook Alerts
             </div>
           </div>
         </div>
@@ -181,11 +186,11 @@ export default function Home() {
         {/* Visual Product Mockup Frame */}
         <div style={{ position: 'relative' }}>
           <div style={{ 
-            background: '#0f172a', 
-            border: '1px solid rgba(255, 255, 255, 0.12)', 
+            background: 'var(--paper-white)', 
+            border: '1.5px solid var(--hairline)', 
             borderRadius: '16px', 
             padding: '0.75rem',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)'
+            boxShadow: '0 16px 40px rgba(28, 42, 68, 0.12)'
           }}>
             {/* Browser Frame Dots */}
             <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>
@@ -197,7 +202,7 @@ export default function Home() {
             <div style={{ borderRadius: '10px', overflow: 'hidden', position: 'relative', width: '100%', height: '360px' }}>
               <Image 
                 src="/images/dashboard_mockup.jpg" 
-                alt="Osusu Executive Dashboard Visual Mockup" 
+                alt="Osùsù Executive Dashboard Visual Mockup" 
                 fill 
                 style={{ objectFit: 'cover' }} 
                 priority
@@ -209,9 +214,9 @@ export default function Home() {
 
       {/* Corporate Social Proof & Leadership Section */}
       <section style={{ 
-        background: '#0f172a', 
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--paper-white)', 
+        borderTop: '1px solid var(--hairline)',
+        borderBottom: '1px solid var(--hairline)',
         padding: '4rem 2.5rem' 
       }}>
         <div style={{ 
@@ -222,34 +227,34 @@ export default function Home() {
           gap: '3.5rem',
           alignItems: 'center'
         }}>
-          <div style={{ position: 'relative', height: '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div style={{ position: 'relative', height: '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--hairline)' }}>
             <Image 
               src="/images/coop_leader.jpg" 
-              alt="Cooperative Executive Managing Osusu Software" 
+              alt="Cooperative Executive Managing Osùsù Software" 
               fill 
               style={{ objectFit: 'cover' }} 
             />
           </div>
 
           <div>
-            <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '1rem', color: '#ffffff' }}>
-              Built for Executive Transparency & Financial Integrity
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--ink-indigo)' }}>
+              Built for Executive Integrity & Unalterable Passbooks
             </h2>
-            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6, marginBottom: '2rem' }}>
-              Osusu empowers executives, treasurers, and trustees to maintain clear audit logs, prevent fraudulent disbursements, and give members instant 24/7 visibility into their savings passbooks.
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6, marginBottom: '2rem' }}>
+              Osùsù empowers executives, treasurers, and trustees to maintain clear audit logs, prevent fraudulent disbursements, and give members instant 24/7 visibility into their passbook ledger.
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              <div style={{ background: '#131b2e', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#059669', marginBottom: '0.2rem' }}>3-Tier</p>
-                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f8fafc' }}>Multi-Sig Approvals</p>
-                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>Secretary → President → Treasurer</p>
+              <div style={{ background: 'var(--passbook-cream)', padding: '1.25rem', borderRadius: '10px', border: '1px solid var(--hairline)' }}>
+                <p className="font-display" style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--guarantor-green)', marginBottom: '0.2rem' }}>3-Tier</p>
+                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-indigo)' }}>Multi-Sig Approvals</p>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Secretary → President → Treasurer</p>
               </div>
 
-              <div style={{ background: '#131b2e', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#d97706', marginBottom: '0.2rem' }}>100%</p>
-                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f8fafc' }}>Automated Reconciliation</p>
-                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>Paystack Webhook Sync</p>
+              <div style={{ background: 'var(--passbook-cream)', padding: '1.25rem', borderRadius: '10px', border: '1px solid var(--hairline)' }}>
+                <p className="font-display" style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ledger-gold)', marginBottom: '0.2rem' }}>100%</p>
+                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ink-indigo)' }}>Automated Reconciliation</p>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Paystack & Termii Sync</p>
               </div>
             </div>
           </div>
@@ -259,44 +264,44 @@ export default function Home() {
       {/* Product Feature Showcase Grid */}
       <section style={{ padding: '5rem 2.5rem', maxWidth: '1300px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            Comprehensive Modules Built for Modern Cooperatives
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+            Comprehensive Modules for Cooperative Societies
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '640px', margin: '0 auto' }}>
-            Eliminate manual record-keeping errors and provide your members with a digital passbook experience.
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '640px', margin: '0 auto' }}>
+            Eliminate manual record-keeping errors and provide your members with an unalterable digital passbook experience.
           </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
           {/* Card 1 */}
-          <div style={{ background: '#131b2e', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '2rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(5, 150, 105, 0.15)', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ background: 'var(--paper-white)', border: '1px solid var(--hairline)', borderRadius: '16px', padding: '2rem' }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(60, 110, 82, 0.12)', color: 'var(--guarantor-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
               <Wallet size={22} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '0.5rem' }}>Paystack Automated Collections</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
-              Members can pay monthly levies via Card, Bank Transfer, or USSD with instant receipt PDF generation.
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Paystack & Termii Passbooks</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Members pay monthly levies via Card, Bank Transfer, or USSD with instant Termii SMS receipts.
             </p>
-            <div style={{ position: 'relative', height: '220px', borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <div style={{ position: 'relative', height: '220px', borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--hairline)' }}>
               <Image src="/images/mobile_mockup.jpg" alt="Mobile Passbook App Interface" fill style={{ objectFit: 'cover' }} />
             </div>
           </div>
 
           {/* Card 2 */}
-          <div style={{ background: '#131b2e', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '2rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(217, 119, 6, 0.15)', color: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ background: 'var(--paper-white)', border: '1px solid var(--hairline)', borderRadius: '16px', padding: '2rem' }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(192, 138, 40, 0.12)', color: 'var(--ledger-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
               <ShieldCheck size={22} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '0.5rem' }}>Multi-Sig Loan Authorizations</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
-              Multi-level executive approval workflow with automatic 2x/3x savings eligibility checks and guarantor verification.
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Multi-Sig Loan Authorizations</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Configurable executive approval workflow with automatic 2x/3x savings eligibility checks.
             </p>
-            <div style={{ background: '#0b0f19', padding: '1.25rem', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+            <div style={{ background: 'var(--passbook-cream)', padding: '1.25rem', borderRadius: '10px', border: '1px solid var(--hairline)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.8rem', fontWeight: 600 }}>
                 <span>APPROVAL PIPELINE</span>
-                <span style={{ color: '#34d399' }}>2 of 3 SIGNED</span>
+                <span className="ink-stamp-badge stamp-approved" style={{ fontSize: '0.7rem' }}>2 OF 3 SIGNED</span>
               </div>
-              <div style={{ display: 'flex', gap: '0.4rem' }}>
+              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
                 <span className="badge badge-paid" style={{ fontSize: '0.75rem' }}>✓ 1. Secretary</span>
                 <span className="badge badge-paid" style={{ fontSize: '0.75rem' }}>✓ 2. President</span>
                 <span className="badge badge-pending" style={{ fontSize: '0.75rem' }}>⌛ 3. Treasurer</span>
@@ -305,23 +310,23 @@ export default function Home() {
           </div>
 
           {/* Card 3 */}
-          <div style={{ background: '#131b2e', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '2rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ background: 'var(--paper-white)', border: '1px solid var(--hairline)', borderRadius: '16px', padding: '2rem' }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(28, 42, 68, 0.1)', color: 'var(--ink-indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
               <FileSpreadsheet size={22} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '0.5rem' }}>Legacy Excel Migration Wizard</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
-              Migrate existing paper registers and Excel spreadsheets into Osusu in minutes with automated column mapping.
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Legacy Excel Migration Wizard</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Migrate existing paper registers and Excel spreadsheets into Osùsù in minutes with automated column mapping.
             </p>
-            <div style={{ background: '#0b0f19', padding: '1.25rem', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#059669', marginBottom: '0.3rem' }}>✓ CSV Header Auto-Detector</div>
-              <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Supports Member Roster, Historical Passbooks, and Loan Ledgers.</p>
+            <div style={{ background: 'var(--passbook-cream)', padding: '1.25rem', borderRadius: '10px', border: '1px solid var(--hairline)' }}>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--guarantor-green)', marginBottom: '0.3rem' }}>✓ CSV Header Auto-Detector</div>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Supports Member Rosters, Historical Passbooks, and Loan Ledgers.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Live Ledger Preview */}
+      {/* Live Passbook Ledger Demonstration */}
       <section style={{ padding: '3rem 2.5rem 5rem', maxWidth: '1000px', margin: '0 auto' }}>
         <TransparentLedger />
       </section>
@@ -329,23 +334,24 @@ export default function Home() {
       {/* CTA Footer Banner */}
       <section style={{ padding: '0 2.5rem 6rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ 
-          background: '#0f172a', 
-          border: '1px solid rgba(255, 255, 255, 0.1)', 
+          background: 'var(--paper-white)', 
+          border: '1px solid var(--hairline)', 
           borderRadius: '20px', 
           padding: '3.5rem 2.5rem', 
-          textAlign: 'center'
+          textAlign: 'center',
+          boxShadow: '0 4px 20px rgba(28, 42, 68, 0.06)'
         }}>
-          <h2 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '1rem', color: '#ffffff' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem', fontWeight: 800, marginBottom: '1rem', color: 'var(--ink-indigo)' }}>
             Transform Your Cooperative Society Today
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Register your cooperative, set up your admin workspace, and invite your members in under 5 minutes.
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
+            Register your cooperative, configure custom governance roles, and activate Termii SMS passbooks in under 90 seconds.
           </p>
           <Link 
             href="/onboarding" 
             style={{ 
-              background: '#059669', 
-              color: 'white', 
+              background: 'var(--ink-indigo)', 
+              color: '#FBF8F2', 
               fontSize: '1.05rem', 
               fontWeight: 600, 
               padding: '0.9rem 2.25rem', 
@@ -362,13 +368,13 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ 
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)', 
+        borderTop: '1px solid var(--hairline)', 
         padding: '2.5rem 2.5rem', 
         textAlign: 'center',
-        color: '#64748b',
+        color: 'var(--text-muted)',
         fontSize: '0.875rem'
       }}>
-        <p>© 2026 Osusu Enterprise Cooperative OS. All rights reserved.</p>
+        <p>© 2026 Osùsù Cooperative Enterprise Platform. All rights reserved.</p>
       </footer>
     </div>
   );
