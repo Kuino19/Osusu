@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { db } from '@/lib/db';
-import { contributions } from '@/lib/db/schema';
+import { members, contributions } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
+import { sendContributionReceiptSMS } from '@/lib/termii';
 
 export async function POST(req: Request) {
   try {
@@ -32,15 +34,32 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Missing metadata' }, { status: 400 });
       }
 
+      const amountNGN = data.amount / 100;
+
       // Record contribution in Neon DB
       await db.insert(contributions).values({
         cooperativeId: metadata.cooperativeId,
         memberId: metadata.memberId,
-        amount: String(data.amount / 100), // Convert back from kobo
+        amount: String(amountNGN),
         status: 'Confirmed',
         receiptId: data.reference,
         date: new Date(data.paid_at),
       });
+
+      // Fetch Member Phone & Name to dispatch Termii SMS
+      try {
+        const [member] = await db.select().from(members).where(eq(members.id, metadata.memberId));
+        if (member && member.phoneNumber) {
+          await sendContributionReceiptSMS({
+            to: member.phoneNumber,
+            memberName: member.fullName,
+            amount: amountNGN,
+            receiptRef: data.reference,
+          });
+        }
+      } catch (smsErr) {
+        console.error('[Termii Webhook SMS Error]:', smsErr);
+      }
 
       return NextResponse.json({ status: 'success' });
     }
