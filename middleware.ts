@@ -54,7 +54,18 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getSession()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const isDashboard = request.nextUrl.pathname.startsWith('/dashboard')
+  const isAuthPage = request.nextUrl.pathname === '/auth'
+
+  if (!user && isDashboard) {
+    return NextResponse.redirect(new URL('/auth', request.url))
+  }
+
+  if (user && isAuthPage) {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
 
   return response
 }

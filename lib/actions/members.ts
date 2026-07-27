@@ -3,9 +3,18 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { revalidatePath } from 'next/cache';
 
+import { db } from '@/lib/db';
+import { members } from '@/lib/db/schema';
+import { getCurrentMember } from '@/lib/auth';
+
 export async function registerMember(formData: FormData) {
+  const currentMember = await getCurrentMember();
+  if (!currentMember) {
+    return { error: 'Unauthorized' };
+  }
+
   const fullName = formData.get('fullName') as string;
-  const email = formData.get('email') as string; // Using email as identifier in Supabase Auth
+  const email = formData.get('email') as string;
   const phone = formData.get('phone') as string;
   const password = formData.get('password') as string;
   const role = formData.get('role') as any || 'Member';
@@ -27,20 +36,19 @@ export async function registerMember(formData: FormData) {
     return { error: authError.message };
   }
 
-  // 2. Create Profile in Members table
-  const { error: profileError } = await supabaseAdmin
-    .from('members')
-    .insert([{
+  // 2. Create Profile in Members table on Neon
+  try {
+    await db.insert(members).values({
       id: authData.user.id,
-      full_name: fullName,
-      phone_number: phone,
+      cooperativeId: currentMember.cooperativeId,
+      fullName,
+      phoneNumber: phone,
       role: role
-    }]);
-
-  if (profileError) {
-    console.error('Profile Error:', profileError.message);
+    });
+  } catch (error: any) {
+    console.error('Profile Error:', error.message);
     // Cleanup auth user if profile creation fails? (Optional)
-    return { error: profileError.message };
+    return { error: error.message };
   }
 
   revalidatePath('/dashboard/members');

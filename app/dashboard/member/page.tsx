@@ -1,111 +1,232 @@
-'use client';
-
 import React from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import Link from 'next/link';
+import { db } from '@/lib/db';
+import { members, cooperatives, loans, contributions } from '@/lib/db/schema';
+import { eq, desc } from 'drizzle-orm';
+import { getCurrentMember } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { 
+  PlusCircle, 
+  CreditCard, 
+  BookOpen, 
+  Bell, 
+  Clock, 
+  CheckCircle2, 
+  ArrowUpRight, 
+  ArrowDownLeft,
+  Sparkles
+} from 'lucide-react';
 
-export default function MemberDashboard() {
+export default async function MemberDashboard() {
+  const currentMember = await getCurrentMember();
+
+  if (!currentMember) {
+    redirect('/auth');
+  }
+
+  // Fetch Cooperative Details
+  const [coop] = await db.select()
+    .from(cooperatives)
+    .where(eq(cooperatives.id, currentMember.cooperativeId));
+
+  // Fetch Member's Active Loans
+  const memberLoans = await db.select()
+    .from(loans)
+    .where(eq(loans.memberId, currentMember.id))
+    .orderBy(desc(loans.createdAt));
+
+  const activeLoan = memberLoans.find(l => l.status === 'Disbursed' || l.status === 'Approved' || l.status?.startsWith('Pending'));
+
+  // Fetch Member's Recent Contributions
+  const recentContributions = await db.select()
+    .from(contributions)
+    .where(eq(contributions.memberId, currentMember.id))
+    .orderBy(desc(contributions.date))
+    .limit(5);
+
+  const memberInfo = {
+    name: currentMember.fullName,
+    role: currentMember.role || 'Member',
+    cooperativeName: coop?.name || 'My Cooperative',
+    initials: currentMember.fullName.substring(0, 2).toUpperCase()
+  };
+
+  const totalSavings = Number(currentMember.totalContributions || 0);
+
   return (
-    <DashboardLayout>
+    <DashboardLayout memberInfo={memberInfo}>
       <div className="overview-header">
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>Good morning, Adaeze 👋</h1>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.25rem' }}>
+          Welcome back, {currentMember.fullName.split(' ')[0]} 👋
+        </h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+          Personal Member Passbook & Loan Portal
+        </p>
       </div>
 
-      <div className="stats-grid" style={{ gridTemplateColumns: '1fr' }}>
-        <div className="stat-card" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', border: 'none' }}>
-          <p className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Total savings</p>
-          <h3 className="stat-value" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>₦960,000</h3>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '0.5rem 1rem', borderRadius: '12px', fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ opacity: 0.8 }}>🕒</span> Next due Apr 1
-            </div>
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '0.5rem 1rem', borderRadius: '12px', fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              ₦20,000 levy
+      {/* Savings Hero Card */}
+      <div className="stats-grid" style={{ gridTemplateColumns: '1fr', marginBottom: '2rem' }}>
+        <div 
+          className="stat-card" 
+          style={{ 
+            background: 'linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%)', 
+            border: 'none',
+            padding: '2rem',
+            boxShadow: '0 10px 30px rgba(16, 185, 129, 0.25)'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <p className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>Total Savings Balance</p>
+            <span style={{ 
+              background: 'rgba(255, 255, 255, 0.15)', 
+              backdropFilter: 'blur(8px)',
+              padding: '0.3rem 0.75rem', 
+              borderRadius: '20px', 
+              fontSize: '0.75rem', 
+              color: 'white', 
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem'
+            }}>
+              <Sparkles size={14} /> Active Passbook
+            </span>
+          </div>
+
+          <h3 className="stat-value" style={{ fontSize: '2.75rem', marginBottom: '1.5rem', color: 'white' }}>
+            ₦{totalSavings.toLocaleString()}
+          </h3>
+
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ background: 'rgba(255, 255, 255, 0.15)', padding: '0.5rem 1rem', borderRadius: '12px', fontSize: '0.85rem', color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Clock size={16} /> Next Monthly Contribution: ₦20,000
             </div>
           </div>
         </div>
       </div>
 
-      <div className="widgets-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2.5rem' }}>
+      {/* Quick Action Grid */}
+      <div className="widgets-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
         {[
-          { label: 'Apply loan', icon: '💸', color: '#10b981', href: '/dashboard/member/loans?apply=true' },
-          { label: 'Contributions', icon: '💳', color: '#3b82f6', href: '/dashboard/member/pay' },
-          { label: 'Passbook', icon: '📖', color: '#fbbf24', href: '/dashboard/member/savings' },
-          { label: 'Alerts', icon: '🔔', color: '#f87171', href: '/dashboard/member/alerts' },
+          { label: 'Pay Contribution', icon: <CreditCard size={22} />, color: '#10b981', href: '/dashboard/member/pay' },
+          { label: 'Apply for Loan', icon: <PlusCircle size={22} />, color: '#3b82f6', href: '/dashboard/member/loans' },
+          { label: 'Passbook History', icon: <BookOpen size={22} />, color: '#fbbf24', href: '/dashboard/member/savings' },
+          { label: 'Alerts', icon: <Bell size={22} />, color: '#f87171', href: '/dashboard/member/alerts' },
         ].map((action, i) => (
           <Link key={i} href={action.href} style={{ textDecoration: 'none', textAlign: 'center' }}>
             <div style={{ 
               width: '100%', 
-              aspectRatio: '1', 
-              background: 'var(--card-bg)', 
-              border: '1px solid var(--card-border)',
-              borderRadius: '20px',
+              aspectRatio: '1.1', 
+              background: 'var(--bg-card)', 
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
-              marginBottom: '0.75rem',
+              color: action.color,
+              marginBottom: '0.6rem',
               cursor: 'pointer',
-              transition: 'all 0.2s'
+              transition: 'transform 0.2s ease, border-color 0.2s ease'
             }}
             className="sidebar-item"
             >
               {action.icon}
             </div>
-            <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{action.label}</p>
+            <p style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)' }}>{action.label}</p>
           </Link>
         ))}
       </div>
 
-      <div className="overview-header" style={{ marginTop: '2.5rem' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Active Loan</h2>
+      {/* Active Loan Widget */}
+      <div className="overview-header" style={{ marginTop: '2rem' }}>
+        <h2 style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
+          Active Loan Status
+        </h2>
       </div>
 
       <div className="widget-card" style={{ marginBottom: '2.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+        {activeLoan ? (
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>₦500,000</h3>
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Business expansion</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+              <div>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+                  ₦{Number(activeLoan.principal).toLocaleString()}
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                  Purpose: {activeLoan.purpose || 'General Loan'} • Term: {activeLoan.termMonths} Months
+                </p>
+              </div>
+              <span className={`badge badge-${activeLoan.status?.toLowerCase().includes('pending') ? 'pending' : 'active'}`}>
+                {activeLoan.status}
+              </span>
+            </div>
+            
+            <div className="progress-bar-bg" style={{ marginBottom: '0.85rem', height: '8px' }}>
+              <div className="progress-bar-fill" style={{ width: activeLoan.status === 'Disbursed' ? '40%' : '10%' }}></div>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+              <span>Monthly Repayment: ₦{Number(activeLoan.monthlyRepayment || 0).toLocaleString()}</span>
+              <span>Rate: {activeLoan.interestRate}%</span>
+            </div>
           </div>
-          <span className="badge badge-paid">Repaying</span>
-        </div>
-        
-        <div className="progress-bar-bg" style={{ marginBottom: '1rem', height: '6px' }}>
-          <div className="progress-bar-fill" style={{ width: '50%' }}></div>
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-          <span>50% repaid</span>
-          <span>6 months left</span>
-        </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '1.5rem 1rem', color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: '0.95rem', marginBottom: '1rem' }}>You currently have no active loan applications.</p>
+            <Link href="/dashboard/member/loans">
+              <button className="widget-btn" style={{ background: 'var(--brand-green)', color: 'white', border: 'none' }}>
+                <PlusCircle size={16} /> Request a Loan
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
 
+      {/* Recent Activity Ledger */}
       <div className="overview-header">
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Recent Activity</h2>
+        <h2 style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
+          Recent Passbook Activity
+        </h2>
       </div>
 
       <Card glass className="widget-card">
-        <div className="transaction-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          {[
-            { name: 'March contribution', date: 'Mar 1, 2026', amount: '-₦20,000', icon: '→', type: 'debit' },
-            { name: 'Loan repayment', date: 'Mar 1, 2026', amount: '-₦43,750', icon: '₦', type: 'debit' },
-            { name: 'Feb contribution', date: 'Feb 1, 2026', amount: '-₦20,000', icon: '→', type: 'debit' },
-          ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{ width: '40px', height: '40px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {item.icon}
+        {recentContributions.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {recentContributions.map((item) => (
+              <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                  <div style={{ 
+                    width: '38px', 
+                    height: '38px', 
+                    background: 'rgba(16, 185, 129, 0.12)', 
+                    color: '#34d399',
+                    borderRadius: '10px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center' 
+                  }}>
+                    <ArrowDownLeft size={18} />
+                  </div>
+                  <div>
+                    <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>Monthly Contribution</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      {item.date ? item.date.toDateString() : 'Recent'} • Ref: {item.receiptId || 'Manual'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p style={{ fontWeight: 600 }}>{item.name}</p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{item.date}</p>
-                </div>
+                <p style={{ fontWeight: 700, color: 'var(--brand-green)', fontSize: '0.95rem' }}>
+                  +₦{Number(item.amount).toLocaleString()}
+                </p>
               </div>
-              <p style={{ fontWeight: 700, color: item.type === 'debit' ? '#f87171' : 'var(--brand-green)' }}>{item.amount}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-secondary)' }}>
+            No recent passbook transactions logged.
+          </div>
+        )}
       </Card>
     </DashboardLayout>
   );

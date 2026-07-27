@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { registerCooperative } from '@/lib/actions/cooperative';
+import { useRouter } from 'next/navigation';
 
-import { signIn, signUp } from '@/lib/actions/auth';
-
-export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
+export default function OnboardingPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,16 +20,13 @@ export default function AuthPage() {
     const formData = new FormData(e.currentTarget);
     
     try {
-      let res;
-      if (isLogin) {
-        res = await signIn(formData);
-      } else {
-        res = await signUp(formData);
-      }
+      const res = await registerCooperative(formData);
       
       if (res?.error) {
         setErrorMsg(res.error);
         setLoading(false);
+      } else {
+        router.push('/auth');
       }
     } catch (err) {
       setErrorMsg('An unexpected error occurred.');
@@ -46,11 +43,11 @@ export default function AuthPage() {
       padding: '1rem',
       background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
     }}>
-      <Card glass className="auth-card" style={{ maxWidth: '450px', width: '100%' }}>
+      <Card glass className="auth-card" style={{ maxWidth: '500px', width: '100%' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2rem', color: 'var(--brand-green)', marginBottom: '0.5rem' }}>Osusu</h1>
+          <h1 style={{ fontSize: '2rem', color: 'var(--brand-green)', marginBottom: '0.5rem' }}>Register Cooperative</h1>
           <p style={{ color: 'var(--text-secondary)' }}>
-            {isLogin ? 'Welcome back to your cooperative.' : 'Join the modern cooperative system.'}
+            Start managing your cooperative with Osusu.
           </p>
         </div>
 
@@ -60,15 +57,24 @@ export default function AuthPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <Input 
-              name="fullName"
-              label="Full Name" 
-              placeholder="e.g. Chidi Okeke" 
-              required
-            />
-          )}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <Input 
+            name="coopName"
+            label="Cooperative Name" 
+            placeholder="e.g. Lagos Traders Union" 
+            required
+          />
+
+          <div style={{ margin: '1rem 0', borderTop: '1px solid var(--border-subtle)' }} />
+
+          <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Admin Profile</p>
+
+          <Input 
+            name="fullName"
+            label="Your Full Name" 
+            placeholder="e.g. Chidi Okeke" 
+            required
+          />
           
           <Input 
             name="phone"
@@ -91,39 +97,16 @@ export default function AuthPage() {
             style={{ width: '100%', marginTop: '1rem' }}
             disabled={loading}
           >
-            {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
+            {loading ? 'Processing...' : 'Register Cooperative'}
           </Button>
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-          <button 
-            type="button"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setErrorMsg(null);
-            }}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'var(--brand-green-light)', 
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
-          </button>
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+            Already registered? <a href="/auth" style={{ color: 'var(--brand-green)', textDecoration: 'none', fontWeight: 600 }}>Sign in</a>
+          </p>
         </div>
       </Card>
-
-      <style jsx global>{`
-        .auth-card {
-          animation: fadeIn 0.5s ease-out;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }
