@@ -115,7 +115,7 @@ export default function MemberProfilePage() {
                   <div style={{ width: '16px', height: '16px', background: 'white', borderRadius: '50%', position: 'absolute', right: '2px', top: '2px' }}></div>
                 </div>
               </div>
-              <div style={{ pt: '1rem', borderTop: '1px solid var(--border-subtle)', marginTop: '0.5rem' }}>
+              <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)', marginTop: '0.5rem' }}>
                 <button className="widget-btn" style={{ background: 'transparent', border: '1px solid #f87171', color: '#f87171', width: '100%', padding: '0.75rem' }}>
                   Sign Out
                 </button>

@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.2",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.38.3",
     "lucide-react": "^0.577.0",
     "next": "^16.1.7",
     "react": "^19.2.4",
@@ -23,6 +25,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "drizzle-kit": "^0.30.1",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
